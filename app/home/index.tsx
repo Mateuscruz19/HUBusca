@@ -1,4 +1,4 @@
-import { View, Text, Pressable, ScrollView, TextInput } from "react-native";
+import { View, Text, Pressable, ScrollView, TextInput, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -6,7 +6,6 @@ import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { hp, wp } from "@/helpers/common";
 import { UserProps } from "@/types/user";
 import axios from "axios";
-
 
 const lightTheme = {
   colors: {
@@ -35,14 +34,14 @@ const FontTheme = {
     medium: '500',
     semibold: '600',
     bold: '700',
-},
-radius:{
+  },
+  radius:{
     xs:10,
     sm:12,
     md:14,
     lg:16,
     xl:18,
-}
+  }
 }
 
 const Home = () => {
@@ -62,8 +61,18 @@ const Home = () => {
       const res = await axios.get(`https://api.github.com/users/${userName}`);
       const data = res.data;
 
-      setUser(data);
-      setError(false); // Reset error state if the user is found
+      const { avatar_url, login, id, name, location } = data;
+
+      const userData: UserProps = {
+        id,
+        avatar_url,
+        login,
+        name,
+        location
+      }
+
+      setUser(userData);
+      setError(false);
 
       // Add user to searchedUsers array if not already present
       setSearchedUsers((prevUsers) => {
@@ -75,8 +84,8 @@ const Home = () => {
 
       console.log(data);
     } catch (error) {
-      setError(true); // Set error state if there is an error fetching the user
-      setUser(null); // Reset user state if there is an error
+      setError(true);
+      setUser(null);
       console.error("Erro ao carregar usuário:", error);
     }
   };
@@ -98,7 +107,7 @@ const Home = () => {
           </Pressable>
         </Header>
 
-        <ScrollView contentContainerStyle={{ gap: 15 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           {/* search bar */}
           <SearchBar>
             <SearchIcon>
@@ -140,14 +149,12 @@ const Home = () => {
           {!search && (
             <PerfilScrollBox>
               <Text style={{ color: theme.colors.text }}>
-                Teste procurar um perfil!
+                Tente pesquisar um perfil no Github!
               </Text>
             </PerfilScrollBox>
           )}
           {search && user && (
-            <PerfilScrollBox>
-              <Text style={{ color: theme.colors.text }}>{user.login}</Text>
-            </PerfilScrollBox>
+            <UserCard key={user.id} user={user} theme={theme} />
           )}
           {search && !user && error && (
             <PerfilScrollBox>
@@ -161,12 +168,7 @@ const Home = () => {
               Usuários já pesquisados:
             </SubTitle>
             {searchedUsers.map((user) => (
-              <View key={user.id}>
-                <Text style={{ color: theme.colors.text }}>{user.login}</Text>
-                <Text style={{ color: theme.colors.text }}>{user.followers}</Text>
-                <Text style={{ color: theme.colors.text }}>{user.following}</Text>
-                <Text style={{ color: theme.colors.text }}>{user.location}</Text>
-              </View>
+              <UserCard key={user.id} user={user} theme={theme} />
             ))}
           </AllSeachBox>
         </ScrollView>
@@ -175,14 +177,30 @@ const Home = () => {
   );
 };
 
+const UserCard: React.FC<UserCardProps> = ({ user, theme }) => {
+  return (
+    <UserCardContainer>
+      <UserImage source={{ uri: user.avatar_url }} />
+      <UserInfo>
+        <UserName>{user.name}</UserName>
+        <UserLogin>{user.login}</UserLogin>
+        <UserLocation>{user.location}</UserLocation>
+        <DetailsButton onPress={() => console.log('Ver mais detalhes')}>
+          <DetailsButtonText>Ver mais detalhes</DetailsButtonText>
+        </DetailsButton>
+      </UserInfo>
+    </UserCardContainer>
+  );
+};
+
 const Container = styled.View`
-  display: flex;
-  gap: 15px;
+  flex: 1;
   background-color: ${(props) => props.theme.colors.background};
 `;
 
 const SearchBar = styled.View`
   flex-direction: row;
+  margin-top:15px;
   margin-right: ${wp(4)}px;
   margin-left: ${wp(4)}px;
   justify-content: space-between;
@@ -233,7 +251,8 @@ const PerfilScrollBox = styled.View`
   flex-direction: row;
   margin-right: ${wp(4)}px;
   margin-left: ${wp(4)}px;
-  height: ${hp(50)}px;
+  height: ${hp(20)}px;
+  margin-top:15px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -246,11 +265,12 @@ const AllSeachBox = styled.View`
   background-color: ${(props) => props.theme.colors.inputBackground};
   border-color: ${(props) => props.theme.colors.border};
   border-width: 1px;
-  flex-direction: column;
+  flex: 1;
+  margin-top:15px;
+  margin-bottom:15px;
+  align-items: center;
   margin-right: ${wp(4)}px;
   margin-left: ${wp(4)}px;
-  height: ${hp(50)}px;
-  align-items: center;
   padding: 6px;
   padding-left: 10px;
   border-radius: 16px;
@@ -259,6 +279,59 @@ const AllSeachBox = styled.View`
 const SubTitle = styled.Text`
   font-size: ${hp(2)}px;
   font-weight: ${FontTheme.fontWeights.medium};
+`;
+
+// UserCard Styles
+const UserCardContainer = styled.View`
+  flex-direction: row;
+  background-color: ${(props) => props.theme.colors.inputBackground};
+  border-color: ${(props) => props.theme.colors.border};
+  border-width: 1px;
+  border-radius: 16px;
+  margin: 10px;
+  padding: 15px;
+  align-items: center;
+`;
+
+const UserImage = styled.Image`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 15px;
+`;
+
+const UserInfo = styled.View`
+  flex: 1;
+`;
+
+const UserName = styled.Text`
+  font-size: ${hp(2.2)}px;
+  font-weight: ${FontTheme.fontWeights.bold};
+  color: ${(props) => props.theme.colors.text};
+`;
+
+const UserLogin = styled.Text`
+  font-size: ${hp(1.8)}px;
+  color: ${(props) => props.theme.colors.text};
+`;
+
+const UserLocation = styled.Text`
+  font-size: ${hp(1.6)}px;
+  color: ${(props) => props.theme.colors.text};
+`;
+
+const DetailsButton = styled.Pressable`
+  background-color: ${(props) => props.theme.colors.text};
+  border-radius: ${FontTheme.radius.sm}px;
+  padding: 6px 12px;
+  margin-top: 10px;
+  align-items: center;
+`;
+
+const DetailsButtonText = styled.Text`
+  font-size: ${hp(1.8)}px;
+  color: ${(props) => props.theme.colors.background};
+  font-weight: ${FontTheme.fontWeights.semibold};
 `;
 
 export default Home;
