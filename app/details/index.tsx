@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView } from "react-native";
-import axios from "axios";
 import { ThemeProvider } from "styled-components/native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import { GitHubUser, GitHubRepo } from "@/types/user"; // Importe os novos tipos
+import { GitHubUser, GitHubRepo } from "@/types/user";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { darkTheme, lightTheme } from "@/constants/theme";
 import {
@@ -19,6 +18,7 @@ import {
 } from "./styles";
 import { RepoCard } from "./components/RepoCard";
 import { UserProfile } from "./components/UserProfile";
+import { loadRep } from "@/services/LoadRep"; // Importe a função loadUserDetails
 
 type DetailsRouteProp = RouteProp<
   { params: { userName: string; whoTheme: boolean } },
@@ -38,34 +38,27 @@ const Details = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   useEffect(() => {
-    loadUser(userName);
+    const fetchUserData = async () => {
+      try {
+        const { user: userData, repos: reposData } = await  loadRep(
+          userName
+        );
+        setUser(userData);
+        setRepos(reposData);
+        setError(false);
+      } catch (error) {
+        setError(true);
+        setUser(null);
+        console.error("Erro ao carregar usuário:", error);
+      }
+    };
+
+    fetchUserData();
     setIsDarkTheme(whoTheme);
   }, []);
 
   const theme = isDarkTheme ? darkTheme : lightTheme;
   const navigation = useNavigation();
-
-  const loadUser = async (userName: string) => {
-    try {
-      const userRes = await axios.get(
-        `https://api.github.com/users/${userName}`
-      );
-      const reposRes = await axios.get(
-        `https://api.github.com/users/${userName}/repos`
-      );
-
-      const userData: GitHubUser = userRes.data;
-      const reposData: GitHubRepo[] = reposRes.data;
-
-      setUser(userData);
-      setRepos(reposData);
-      setError(false);
-    } catch (error) {
-      setError(true);
-      setUser(null);
-      console.error("Erro ao carregar usuário:", error);
-    }
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,9 +77,7 @@ const Details = () => {
             <UserProfile user={user} theme={theme} />
             <ReposTitle>Repositórios</ReposTitle>
             {repos.map((repo) => (
-              <RepoCard key={repo.id}
-               repo={repo}
-                theme={theme}/>
+              <RepoCard key={repo.id} repo={repo} theme={theme} />
             ))}
           </ScrollView>
         )}
