@@ -1,49 +1,50 @@
-import { View, Text, Pressable, ScrollView, TextInput, Image } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import React, { useState } from "react";
-import styled, { ThemeProvider } from "styled-components/native";
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { hp, wp } from "@/helpers/common";
-import { UserProps } from "@/types/user";
-import axios from "axios";
+import React, { useState } from 'react';
+import { View, Text, Pressable, ScrollView, TextInput, Image } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import styled, { ThemeProvider } from 'styled-components/native';
+import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { router } from 'expo-router';
+import { hp, wp } from '@/helpers/common';
+import { UserProps } from '@/types/user';
 
 const lightTheme = {
   colors: {
-    background: "#fff",
-    text: "#000",
-    border: "#e5e5e5",
-    inputBackground: "#fff",
-    placeholder: "rgba(10, 10, 10, 0.4)",
-    closeIconBackground: "rgba(10, 10, 10, 0.1)",
+    background: '#fff',
+    text: '#000',
+    border: '#e5e5e5',
+    inputBackground: '#fff',
+    placeholder: 'rgba(10, 10, 10, 0.4)',
+    closeIconBackground: 'rgba(10, 10, 10, 0.1)',
   },
 };
 
 const darkTheme = {
   colors: {
-    background: "#000",
-    text: "#fff",
-    border: "#333",
-    inputBackground: "#333",
-    placeholder: "rgba(255, 255, 255, 0.4)",
-    closeIconBackground: "rgba(255, 255, 255, 0.1)",
+    background: '#000',
+    text: '#fff',
+    border: '#333',
+    inputBackground: '#333',
+    placeholder: 'rgba(255, 255, 255, 0.4)',
+    closeIconBackground: 'rgba(255, 255, 255, 0.1)',
   },
 };
 
 const FontTheme = {
   fontWeights: {
-    medium: '500',
-    semibold: '600',
-    bold: '700',
+    medium: "500",
+    semibold: "600",
+    bold: "700",
   },
-  radius:{
-    xs:10,
-    sm:12,
-    md:14,
-    lg:16,
-    xl:18,
-  }
-}
-
+  radius: {
+    xs: 10,
+    sm: 12,
+    md: 14,
+    lg: 16,
+    xl: 18,
+  },
+};
 const Home = () => {
   const { top } = useSafeAreaInsets();
   const paddingTop = top > 0 ? top + 10 : 30;
@@ -55,6 +56,7 @@ const Home = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const theme = isDarkTheme ? darkTheme : lightTheme;
+  const navigation = useNavigation();
 
   const loadUser = async (userName: string) => {
     try {
@@ -68,54 +70,39 @@ const Home = () => {
         avatar_url,
         login,
         name,
-        location
-      }
+        location,
+      };
 
       setUser(userData);
       setError(false);
 
-      // Add user to searchedUsers array if not already present
       setSearchedUsers((prevUsers) => {
         if (!prevUsers.find((user) => user.login === data.login)) {
           return [...prevUsers, data];
         }
         return prevUsers;
       });
-
-      console.log(data);
     } catch (error) {
       setError(true);
       setUser(null);
-      console.error("Erro ao carregar usuário:", error);
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
       <Container style={{ paddingTop }}>
-        {/* header */}
         <Header>
           <Pressable>
             <Title>HUBusca!</Title>
           </Pressable>
           <Pressable onPress={() => setIsDarkTheme(!isDarkTheme)}>
-            <MaterialCommunityIcons
-              name="theme-light-dark"
-              size={30}
-              color={theme.colors.text}
-            />
+            <MaterialCommunityIcons name="theme-light-dark" size={30} color={theme.colors.text} />
           </Pressable>
         </Header>
-
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          {/* search bar */}
           <SearchBar>
             <SearchIcon>
-              <Feather
-                name="search"
-                size={24}
-                color={theme.colors.placeholder}
-              />
+              <Feather name="search" size={24} color={theme.colors.placeholder} />
             </SearchIcon>
             <SearchInput
               placeholder="Procurar perfil"
@@ -138,37 +125,25 @@ const Home = () => {
                 }}
                 style={{ backgroundColor: theme.colors.closeIconBackground }}
               >
-                <Ionicons
-                  name="close"
-                  size={24}
-                  color={theme.colors.placeholder}
-                />
+                <Ionicons name="close" size={24} color={theme.colors.placeholder} />
               </CloseIcon>
             )}
           </SearchBar>
           {!search && (
             <PerfilScrollBox>
-              <Text style={{ color: theme.colors.text }}>
-                Tente pesquisar um perfil no Github!
-              </Text>
+              <Text style={{ color: theme.colors.text }}>Tente pesquisar um perfil no Github!</Text>
             </PerfilScrollBox>
           )}
-          {search && user && (
-            <UserCard key={user.id} user={user} theme={theme} />
-          )}
+          {search && user && <UserCard key={user.id} user={user} theme={theme} navigation={navigation} whoTheme={isDarkTheme} />}
           {search && !user && error && (
             <PerfilScrollBox>
-              <Text style={{ color: theme.colors.text }}>
-                Usuário não encontrado, tente novamente.
-              </Text>
+              <Text style={{ color: theme.colors.text }}>Usuário não encontrado, tente novamente.</Text>
             </PerfilScrollBox>
           )}
           <AllSeachBox>
-            <SubTitle style={{ color: theme.colors.text }}>
-              Usuários já pesquisados:
-            </SubTitle>
+            <SubTitle style={{ color: theme.colors.text }}>Usuários já pesquisados:</SubTitle>
             {searchedUsers.map((user) => (
-              <UserCard key={user.id} user={user} theme={theme} />
+              <UserCard key={user.id} user={user} theme={theme} navigation={navigation} whoTheme={isDarkTheme} />
             ))}
           </AllSeachBox>
         </ScrollView>
@@ -177,15 +152,17 @@ const Home = () => {
   );
 };
 
-const UserCard: React.FC<UserCardProps> = ({ user, theme }) => {
+const UserCard = ({ user, navigation, whoTheme }) => {
   return (
     <UserCardContainer>
-      <UserImage source={{ uri: user.avatar_url }} />
+      <Pressable onPress={() => navigation.navigate('details/index', { userName: user.login }, { whoTheme:whoTheme})}>
+        <UserImage source={{ uri: user.avatar_url }} />
+      </Pressable>
       <UserInfo>
         <UserName>{user.name}</UserName>
         <UserLogin>{user.login}</UserLogin>
         <UserLocation>{user.location}</UserLocation>
-        <DetailsButton onPress={() => console.log('Ver mais detalhes')}>
+        <DetailsButton onPress={() => navigation.navigate('details/index', { userName: user.login }, { whoTheme:whoTheme})}>
           <DetailsButtonText>Ver mais detalhes</DetailsButtonText>
         </DetailsButton>
       </UserInfo>
