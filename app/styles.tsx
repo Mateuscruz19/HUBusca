@@ -2,8 +2,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import styled from "styled-components/native";
 import { Image, Pressable } from "react-native";
 import { hp, wp } from "../helpers/common";
-import { lightTheme } from "@/constants/theme";
-import { FontTheme } from "@/constants/theme";
+import { lightTheme } from "../constants/theme";
+import { FontTheme } from "../constants/theme";
 
 export const Container = styled.View`
   flex: 1;
@@ -19,7 +19,7 @@ export const ContentContainer = styled.View`
 
 export const StartButton = styled(Pressable)`
   margin-bottom: 20px;
-  background-color: ${lightTheme.colors.black};
+  background-color: ${lightTheme.black};
   border-radius: ${FontTheme.radius.xl}px;
   padding: 20px 80px;
   display: flex;
@@ -28,7 +28,7 @@ export const StartButton = styled(Pressable)`
 `;
 
 export const StartText = styled.Text`
-  color: ${lightTheme.colors.white};
+  color: ${lightTheme.white};
   font-size: ${hp(3)};
   letter-spacing: 1px;
   font-weight: ${FontTheme.fontWeights.medium};

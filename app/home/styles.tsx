@@ -1,30 +1,22 @@
 import styled from 'styled-components/native';
-import { hp, wp } from '@/helpers/common';
-import { FontTheme } from '@/constants/theme';
+import { hp,wp } from '../../helpers/common';
+import { FontTheme } from '../../constants/theme';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${(props) => props.theme.inputBackground};
 `;
 
 export const SearchBarContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  padding: 10px;
-  border-radius: 10px;
-  margin: 10px;
-  background-color: ${(props) => props.theme.colors.inputBackground};
-`;
-export const SearchBar = styled.View`
-  flex-direction: row;
+    flex-direction: row;
   margin-top:15px;
   margin-right: ${wp(4)}px;
   margin-left: ${wp(4)}px;
   justify-content: space-between;
   align-items: center;
   border-width: 1px;
-  border-color: ${(props) => props.theme.colors.border};
-  background-color: ${(props) => props.theme.colors.inputBackground};
+  border-color: ${(props) => props.theme.border};
+  background-color: ${(props) => props.theme.inputBackground};
   padding: 6px;
   padding-left: 10px;
   border-radius: 16px;
@@ -50,7 +42,7 @@ export const CloseIcon = styled.Pressable`
 export const Title = styled.Text`
   font-size: ${hp(4)}px;
   font-weight: ${FontTheme.fontWeights.semibold};
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const Header = styled.View`
@@ -62,8 +54,8 @@ export const Header = styled.View`
 `;
 
 export const PerfilScrollBox = styled.View`
-  background-color: ${(props) => props.theme.colors.inputBackground};
-  border-color: ${(props) => props.theme.colors.border};
+  background-color: ${(props) => props.theme.inputBackground};
+  border-color: ${(props) => props.theme.border};
   border-width: 1px;
   flex-direction: row;
   margin-right: ${wp(4)}px;
@@ -79,8 +71,8 @@ export const PerfilScrollBox = styled.View`
 `;
 
 export const AllSeachBox = styled.View`
-  background-color: ${(props) => props.theme.colors.inputBackground};
-  border-color: ${(props) => props.theme.colors.border};
+  background-color: ${(props) => props.theme.inputBackground};
+  border-color: ${(props) => props.theme.border};
   border-width: 1px;
   flex: 1;
   margin-top:15px;
@@ -101,8 +93,8 @@ export const SubTitle = styled.Text`
 // UserCard Styles
 export const UserCardContainer = styled.View`
   flex-direction: row;
-  background-color: ${(props) => props.theme.colors.inputBackground};
-  border-color: ${(props) => props.theme.colors.border};
+  background-color: ${(props) => props.theme.inputBackground};
+  border-color: ${(props) => props.theme.border};
   border-width: 1px;
   border-radius: 16px;
   margin: 10px;
@@ -124,21 +116,21 @@ export const UserInfo = styled.View`
 export const UserName = styled.Text`
   font-size: ${hp(2.2)}px;
   font-weight: ${FontTheme.fontWeights.bold};
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const UserLogin = styled.Text`
   font-size: ${hp(1.8)}px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const UserLocation = styled.Text`
   font-size: ${hp(1.6)}px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const DetailsButton = styled.Pressable`
-  background-color: ${(props) => props.theme.colors.text};
+  background-color: ${(props) => props.theme.text};
   border-radius: ${FontTheme.radius.sm}px;
   padding: 6px 12px;
   margin-top: 10px;
@@ -147,7 +139,7 @@ export const DetailsButton = styled.Pressable`
 
 export const DetailsButtonText = styled.Text`
   font-size: ${hp(1.8)}px;
-  color: ${(props) => props.theme.colors.background};
+  color: ${(props) => props.theme.background};
   font-weight: ${FontTheme.fontWeights.semibold};
 `;
 

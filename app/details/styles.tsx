@@ -1,9 +1,9 @@
 import styled from "styled-components/native";
-import { FontTheme } from "@/constants/theme";
+import { FontTheme } from "../../constants/theme";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${(props) => props.theme.colors.background};
+  background-color: ${(props) => props.theme.background};
 `;
 
 export const Header = styled.View`
@@ -11,9 +11,9 @@ export const Header = styled.View`
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: ${(props) => props.theme.colors.inputBackground};
+  background-color: ${(props) => props.theme.inputBackground};
   border-bottom-width: 1px;
-  border-color: ${(props) => props.theme.colors.border};
+  border-color: ${(props) => props.theme.border};
 `;
 
 export const BackButton = styled.Pressable``;
@@ -21,17 +21,17 @@ export const BackButton = styled.Pressable``;
 export const Title = styled.Text`
   font-size: 24px;
   font-weight: ${FontTheme.fontWeights.bold};
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const ThemeToggle = styled.Pressable``;
 
-export const UserProfile = styled.View`
+export const UserProfileStyled = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 20px;
-  background-color: ${(props) => props.theme.colors.inputBackground};
-  border-color: ${(props) => props.theme.colors.border};
+  background-color: ${(props) => props.theme.inputBackground};
+  border-color: ${(props) => props.theme.border};
   border-width: 1px;
   border-radius: 16px;
   padding: 15px;
@@ -49,12 +49,12 @@ export const UserInfo = styled.View``;
 export const UserName = styled.Text`
   font-size: 22px;
   font-weight: ${FontTheme.fontWeights.bold};
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const UserLogin = styled.Text`
   font-size: 18px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
   margin-bottom: 10px;
 `;
 
@@ -66,19 +66,19 @@ export const UserStats = styled.View`
 
 export const UserLocation = styled.Text`
   font-size: 16px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const ReposTitle = styled.Text`
   font-size: 22px;
   font-weight: ${FontTheme.fontWeights.bold};
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
   margin-bottom: 10px;
 `;
 
-export const RepoCard = styled.Pressable`
-  background-color: ${(props) => props.theme.colors.inputBackground};
-  border-color: ${(props) => props.theme.colors.border};
+export const RepoCardStyled = styled.Pressable`
+  background-color: ${(props) => props.theme.inputBackground};
+  border-color: ${(props) => props.theme.border};
   border-width: 1px;
   border-radius: 16px;
   padding: 10px;
@@ -88,17 +88,17 @@ export const RepoCard = styled.Pressable`
 export const RepoName = styled.Text`
   font-size: 18px;
   font-weight: ${FontTheme.fontWeights.semibold};
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const RepoLanguage = styled.Text`
   font-size: 16px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const RepoDescription = styled.Text`
   font-size: 16px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;
 
 export const RepoDates = styled.View`
@@ -113,5 +113,5 @@ export const ErrorBox = styled.View`
 
 export const ErrorText = styled.Text`
   font-size: 18px;
-  color: ${(props) => props.theme.colors.text};
+  color: ${(props) => props.theme.text};
 `;

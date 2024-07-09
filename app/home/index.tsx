@@ -4,8 +4,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemeProvider } from 'styled-components/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { darkTheme, lightTheme } from '@/constants/theme';
-import { UserProps } from '@/types/user';
+import { darkTheme ,lightTheme } from '../../constants/theme';
+import { UserProps } from '../../types/user';
 import {
   AllSeachBox,
   Container,
@@ -16,7 +16,7 @@ import {
 } from './styles';
 import { UserCard } from './components/UserCard';
 import { SearchBar } from './components/SearchBar';
-import { loadUser } from '@/services/LoadUser';
+import { loadUser } from '../../services/LoadUser';
 
 const Home = () => {
   const { top } = useSafeAreaInsets();
@@ -33,11 +33,10 @@ const Home = () => {
 
   const handleLoadUser = async (userName: string) => {
     try {
-      const userData = await loadUser(userName); // Utilize a função loadUser do arquivo api.ts
+      const userData = await loadUser(userName);
 
       setUser(userData);
       setError(false);
-
       setSearchedUsers((prevUsers) => {
         if (!prevUsers.find((user) => user.login === userData.login)) {
           return [...prevUsers, userData];
@@ -61,7 +60,7 @@ const Home = () => {
             <MaterialCommunityIcons
               name="theme-light-dark"
               size={30}
-              color={theme.colors.text}
+              color={theme.text}
             />
           </Pressable>
         </Header>
@@ -69,14 +68,14 @@ const Home = () => {
           <SearchBar
             search={search}
             setSearch={setSearch}
-            loadUser={handleLoadUser} // Passe a função handleLoadUser para o SearchBar
+            loadUser={handleLoadUser}
             theme={theme}
             setUser={setUser}
             setError={setError}
           />
           {!search && (
             <PerfilScrollBox>
-              <Text style={{ color: theme.colors.text }}>
+              <Text style={{ color: theme.text }}>
                 Tente pesquisar um perfil no Github!
               </Text>
             </PerfilScrollBox>
@@ -84,28 +83,26 @@ const Home = () => {
           {search && user && (
             <UserCard
               key={user.id}
-              user={user}
-              theme={theme}
+              user={user}    
               navigation={navigation}
               whoTheme={isDarkTheme}
             />
           )}
           {search && !user && error && (
             <PerfilScrollBox>
-              <Text style={{ color: theme.colors.text }}>
+              <Text style={{ color: theme.text }}>
                 Usuário não encontrado, tente novamente.
               </Text>
             </PerfilScrollBox>
           )}
-          <AllSeachBox>
-            <SubTitle style={{ color: theme.colors.text }}>
+          <AllSeachBox >
+            <SubTitle style={{ color: theme.text }}>
               Usuários já pesquisados:
             </SubTitle>
             {searchedUsers.map((user) => (
               <UserCard
                 key={user.id}
                 user={user}
-                theme={theme}
                 navigation={navigation}
                 whoTheme={isDarkTheme}
               />

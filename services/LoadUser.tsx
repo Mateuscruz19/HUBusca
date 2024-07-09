@@ -1,8 +1,8 @@
-// api.ts
 import axios from 'axios';
-import { UserProps } from '@/types/user';
+import { UserProps } from '../types/user';
 
-export const loadUser = async (userName: string) => {
+
+export const loadUser = async (userName: string): Promise<UserProps> => {
   try {
     const res = await axios.get(`https://api.github.com/users/${userName}`);
     const data = res.data;

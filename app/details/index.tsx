@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
-import { GitHubUser, GitHubRepo } from "@/types/user";
+import { GitHubRepo, GitHubUser } from "../../types/user";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { darkTheme, lightTheme } from "@/constants/theme";
+import { darkTheme, lightTheme } from "../../constants/theme";
 import {
   BackButton,
   Container,
@@ -18,7 +18,8 @@ import {
 } from "./styles";
 import { RepoCard } from "./components/RepoCard";
 import { UserProfile } from "./components/UserProfile";
-import { loadRep } from "@/services/LoadRep"; // Importe a função loadUserDetails
+import { loadRep } from "../../services/LoadRep"; 
+import { themePattern } from "../../types/user";
 
 type DetailsRouteProp = RouteProp<
   { params: { userName: string; whoTheme: boolean } },
@@ -36,13 +37,12 @@ const Details = () => {
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const theme = isDarkTheme ? darkTheme : lightTheme;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const { user: userData, repos: reposData } = await  loadRep(
-          userName
-        );
+        const { user: userData, repos: reposData } = await loadRep(userName);
         setUser(userData);
         setRepos(reposData);
         setError(false);
@@ -55,9 +55,9 @@ const Details = () => {
 
     fetchUserData();
     setIsDarkTheme(whoTheme);
+    console.log(whoTheme);
   }, []);
 
-  const theme = isDarkTheme ? darkTheme : lightTheme;
   const navigation = useNavigation();
 
   return (
@@ -65,20 +65,26 @@ const Details = () => {
       <Container style={{ paddingTop }}>
         <Header>
           <BackButton onPress={() => navigation.goBack()}>
-            <Feather name="arrow-left" size={24} color={theme.colors.text} />
+            <Feather name="arrow-left" size={24} color={theme.text} />
           </BackButton>
           <Title>Detalhes do Perfil</Title>
-          <ThemeToggle onPress={() => setIsDarkTheme(!isDarkTheme)}>
-            <Feather name="sun" size={24} color={theme.colors.text} />
+          <ThemeToggle>
+            <Feather name="user" size={24} color={theme.text} />
           </ThemeToggle>
         </Header>
         {user && (
           <ScrollView contentContainerStyle={{ padding: 20 }}>
             <UserProfile user={user} theme={theme} />
             <ReposTitle>Repositórios</ReposTitle>
-            {repos.map((repo) => (
-              <RepoCard key={repo.id} repo={repo} theme={theme} />
-            ))}
+            {repos.length > 0 ? (
+              repos.map((repo) => (
+                <RepoCard key={repo.id} repo={repo} theme={theme} />
+              ))
+            ) : (
+              <Text style={{ color: theme.text }}>
+                Este usuário não possui repositórios públicos.
+              </Text>
+            )}
           </ScrollView>
         )}
         {error && (

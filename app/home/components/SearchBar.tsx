@@ -1,24 +1,34 @@
 import React from 'react';
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { CloseIcon, SearchIcon, SearchInput, SearchBarContainer } from "../styles";
+import { themePattern } from '../../../types/user';
 
-export const SearchBar = ({ loadUser, theme, search, setSearch, setUser, setError }) => {
+type SearchBarProps = {
+  loadUser: (userName: string) => void;
+  theme: themePattern;
+  search: string | null;  // Atualizado para string | null
+  setSearch: (search: string | null) => void;
+  setUser: (user: any | null) => void;
+  setError: (error: boolean) => void;
+};
+
+export const SearchBar: React.FC<SearchBarProps> = ({ loadUser, theme, search, setSearch, setUser, setError }) => {
   return (
     <SearchBarContainer>
       <SearchIcon>
-        <Feather name="search" size={24} color={theme.colors.placeholder} />
+        <Feather name="search" size={24} color={theme.placeholder} />
       </SearchIcon>
       <SearchInput
         placeholder="Procurar perfil"
-        placeholderTextColor={theme.colors.placeholder}
-        value={search}
+        placeholderTextColor={theme.placeholder}
+        value={search || ''}  // Garantir que search seja string
         onChangeText={(value) => setSearch(value)}
         onSubmitEditing={() => {
           if (search) {
             loadUser(search);
           }
         }}
-        style={{ backgroundColor: theme.colors.inputBackground }}
+        style={{ backgroundColor: theme.inputBackground }}
       />
       {search && (
         <CloseIcon
@@ -27,9 +37,9 @@ export const SearchBar = ({ loadUser, theme, search, setSearch, setUser, setErro
             setUser(null);
             setError(false);
           }}
-          style={{ backgroundColor: theme.colors.closeIconBackground }}
+          style={{ backgroundColor: theme.closeIconBackground }}
         >
-          <Ionicons name="close" size={24} color={theme.colors.placeholder} />
+          <Ionicons name="close" size={24} color={theme.placeholder} />
         </CloseIcon>
       )}
     </SearchBarContainer>

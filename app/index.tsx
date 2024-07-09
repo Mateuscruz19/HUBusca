@@ -35,7 +35,7 @@ const WelcomeScreen = () => {
           <Animated.Text
             style={{
               fontSize: hp(7),
-              color: lightTheme.colors.neutral(0.9),
+              color: lightTheme.neutral(0.9),
               fontWeight: 600,
             }}
             entering={FadeInDown.delay(400).springify()}

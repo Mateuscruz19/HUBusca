@@ -1,11 +1,15 @@
 export type UserProps = {
     id: number;
-    name: string,
+    name: string;
     avatar_url: string;
     login: string;
     location: string;
-}
+    followers?: number;
+    following?: number;
+    public_repos?: number;
+  };
 
+  
 export interface GitHubUser {
     id: number;
     name: string;
@@ -27,4 +31,15 @@ export interface GitHubUser {
     html_url: string;
   }
   
-  
+export type themePattern = {
+      background:string,
+      text: string,
+      border: string,
+      inputBackground: string,
+      placeholder: string,
+      closeIconBackground: string,
+      neutral: any,
+      black:string,
+      white: string,
+      grayBG:string,
+}

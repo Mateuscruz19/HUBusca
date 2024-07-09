@@ -1,31 +1,29 @@
-export const lightTheme = {
-    colors: {
+import { themePattern } from '../types/user.js';
+
+export const lightTheme:themePattern = {
       background: '#fff',
       text: '#000',
       border: '#e5e5e5',
       inputBackground: '#fff',
       placeholder: 'rgba(10, 10, 10, 0.4)',
       closeIconBackground: 'rgba(10, 10, 10, 0.1)',
-      neutral: (opacity) => `rgba(10,10,10, ${opacity})`,
+      neutral: (opacity: any) => `rgba(10, 10, 10, ${opacity})`,
       black:'#000',
       white: '#fff',
       grayBG: '#e5e5e5',
-    },
   };
   
-export const darkTheme = {
-    colors: {
+export const darkTheme:themePattern= {
       background: '#000',
       text: '#fff',
       border: '#333',
       inputBackground: '#333',
       placeholder: 'rgba(255, 255, 255, 0.4)',
       closeIconBackground: 'rgba(255, 255, 255, 0.1)',
-      neutral: (opacity) => `rgba(10,10,10, ${opacity})`,
+      neutral: (opacity: any) => `rgba(10, 10, 10, ${opacity})`,
       black:'#000',
       white: '#fff',
       grayBG: '#e5e5e5',
-    },
   };
 
 export const FontTheme = {
