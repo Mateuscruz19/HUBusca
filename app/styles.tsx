@@ -10,7 +10,7 @@ export const Container = styled.View`
 `;
 
 export const ContentContainer = styled.View`
-  gap: 5px; /* Corrigido para especificar unidades (px) */
+  gap: 5px;
   flex: 1;
   align-items: center;
   justify-content: flex-end;

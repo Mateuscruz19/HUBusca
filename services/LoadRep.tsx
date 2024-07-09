@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { GitHubUser, GitHubRepo } from '../types/user';
 
+const GITHUB_API = process.env.GITHUB_API || 'https://api.github.com/users/';
+
 export const loadRep = async (userName: string): Promise<{ user: GitHubUser; repos: GitHubRepo[] }> => {
   try {
-    const userRes = await axios.get(`https://api.github.com/users/${userName}`);
-    const reposRes = await axios.get(`https://api.github.com/users/${userName}/repos`);
+    const userRes = await axios.get(`${GITHUB_API}${userName}`);
+    const reposRes = await axios.get(`${GITHUB_API}${userName}/repos`);
 
     const userData: GitHubUser = userRes.data;
     const reposData: GitHubRepo[] = reposRes.data;

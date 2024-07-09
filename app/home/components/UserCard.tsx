@@ -1,12 +1,12 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
 import { DetailsButton, DetailsButtonText, UserCardContainer, UserImage, UserInfo, UserLocation, UserLogin, UserName } from "../styles";
-import { GitHubUser, UserProps } from "../../../types/user"; // Certifique-se de importar o tipo correto para GitHubUser
+import { GitHubUser, UserProps } from "../../../types/user";
 
 interface UserCardProps {
-  user: UserProps; // Ajuste o tipo para GitHubUser
-  navigation: any; // Defina o tipo correto para navigation
-  whoTheme: any; // Defina o tipo correto para whoTheme
+  user: UserProps;
+  navigation: any;
+  whoTheme: any;
 }
 
 export const UserCard: React.FC<UserCardProps> = ({ user, navigation, whoTheme }) => {

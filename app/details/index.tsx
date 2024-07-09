@@ -19,7 +19,6 @@ import {
 import { RepoCard } from "./components/RepoCard";
 import { UserProfile } from "./components/UserProfile";
 import { loadRep } from "../../services/LoadRep"; 
-import { themePattern } from "../../types/user";
 
 type DetailsRouteProp = RouteProp<
   { params: { userName: string; whoTheme: boolean } },

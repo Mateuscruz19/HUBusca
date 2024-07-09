@@ -6,7 +6,7 @@ import { themePattern } from '../../../types/user';
 type SearchBarProps = {
   loadUser: (userName: string) => void;
   theme: themePattern;
-  search: string | null;  // Atualizado para string | null
+  search: string | null;
   setSearch: (search: string | null) => void;
   setUser: (user: any | null) => void;
   setError: (error: boolean) => void;
@@ -21,7 +21,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ loadUser, theme, search, s
       <SearchInput
         placeholder="Procurar perfil"
         placeholderTextColor={theme.placeholder}
-        value={search || ''}  // Garantir que search seja string
+        value={search || ''}
         onChangeText={(value) => setSearch(value)}
         onSubmitEditing={() => {
           if (search) {

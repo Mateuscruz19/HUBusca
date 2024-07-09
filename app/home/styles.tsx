@@ -78,10 +78,8 @@ export const AllSeachBox = styled.View`
   margin-top:15px;
   margin-bottom:15px;
   align-items: center;
-  margin-right: ${wp(4)}px;
-  margin-left: ${wp(4)}px;
-  padding: 6px;
-  padding-left: 10px;
+  margin: 10px;
+  padding: 15px;
   border-radius: 16px;
 `;
 
